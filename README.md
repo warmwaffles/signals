@@ -1,24 +1,33 @@
 # Signals
 
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'signals'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install signals
+A light weight publish / subscribe. It is similar to how the gem Wisper works
+but without extra functionality. This library assumes nothing and concurrency is
+not a priortiy.
 
 ## Usage
 
-TODO: Write usage instructions here
+```rb
+class Coach
+  include Signals::Publisher
+
+  def run_play
+    broadcast(:v_formation, self)
+  end
+end
+
+class Player
+  def v_formation(coach)
+    puts "I'm in position"
+  end
+end
+
+coach = Coach.new
+player = Player.new
+
+coach.subscribe(player)
+
+coach.run_play
+```
 
 ## Contributing
 
