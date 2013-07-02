@@ -13,6 +13,8 @@ gem 'signals'
 ## Usage
 
 ```rb
+require 'signals'
+
 class Coach
   include Signals::Publisher
 
@@ -22,15 +24,21 @@ class Coach
 end
 
 class Player
+  def initialize(name)
+    @name = name
+  end
+
   def v_formation(coach)
-    puts "I'm in position"
+    puts "#{@name} is in position"
   end
 end
 
 coach = Coach.new
-player = Player.new
+forward = Player.new('John')
+center = Player.new('Jeff')
 
-coach.subscribe(player)
+coach.subscribe(forward)
+coach.subscribe(center)
 
 coach.run_play
 ```
