@@ -4,6 +4,12 @@ A light weight publish / subscribe. It is similar to how the gem Wisper works
 but without extra functionality. This library assumes nothing and concurrency is
 not a priortiy.
 
+## Installation
+
+```
+gem 'signals'
+```
+
 ## Usage
 
 ```rb
