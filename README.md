@@ -1,8 +1,9 @@
 # Signals
 
-A light weight publish / subscribe. It is similar to how the gem Wisper works
-but without extra functionality. This library assumes nothing and concurrency is
-not a priortiy.
+A light weight publish / subscribe. It is similar to how the Wisper gem works.
+Except that listeners must include `Signals::Subscriber` so that it can have a
+nice DSL and listen for specific events and trigger actions based on those
+events.
 
 ## Installation
 
