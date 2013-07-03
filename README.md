@@ -40,6 +40,10 @@ center = Player.new('Jeff')
 coach.subscribe(forward)
 coach.subscribe(center)
 
+coach.on(:v_formation) do |c|
+  puts "I WANT MORE HUSTLE"
+end
+
 coach.run_play
 ```
 
