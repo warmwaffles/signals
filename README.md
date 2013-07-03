@@ -17,34 +17,43 @@ require 'signals'
 
 class Coach
   include Signals::Publisher
-
-  def run_play
-    broadcast(:v_formation, self)
-  end
 end
 
 class Player
+  include Signals::Subscriber
+
+  listen_for :v_formation => :run
+  listen_for [:hat_trick, :v_formation] => :audible
+  listen_for :stop => [:look, :run]
+  listen_for :stop => :audible
+
   def initialize(name)
     @name = name
   end
 
-  def v_formation(coach)
-    puts "#{@name} is in position"
+  def run(coach)
+    puts "#{@name} is running"
+  end
+
+  def audible(coach)
+    puts "#{@name} is calling an audible"
+  end
+
+  def look(coach)
+    puts "#{@name} is looking"
   end
 end
 
-coach = Coach.new
+coach   = Coach.new
 forward = Player.new('John')
-center = Player.new('Jeff')
+center  = Player.new('Jeff')
 
 coach.subscribe(forward)
 coach.subscribe(center)
 
-coach.on(:v_formation) do |c|
-  puts "I WANT MORE HUSTLE"
+coach.on(:stop) do |c|
+  puts "I'm telling you to stop"
 end
-
-coach.run_play
 ```
 
 ## Contributing
