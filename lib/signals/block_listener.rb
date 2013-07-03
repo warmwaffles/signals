@@ -10,7 +10,7 @@ module Signals
       @event = event
     end
 
-    def execute(event, *args)
+    def execute_event(event, *args)
       if self.event == event
         self.listener.call(*args)
       end

@@ -5,42 +5,49 @@ describe Signals::Publisher do
     include Signals::Publisher
   end
 
-  class SimpleListener
-  end
-
-  let(:publisher) { DummyPublisher.new }
-
   describe '#broadcast' do
-    it 'should broadcast an event' do
-      listener = double('AListener', execute: true)
-      publisher.stub(listeners: Set.new([listener]))
+    it 'should broadcast an event to subscribers' do
+      publisher = DummyPublisher.new
+      listener  = double('Listener', execute_event: true)
+      listeners = [listener]
+      publisher.stub(listeners: listeners)
 
       publisher.broadcast(:event, 1, 2)
 
-      listener.should have_received(:execute).with(:event, 1, 2)
-    end
-  end
-
-  describe '#subscribe' do
-    it 'should subscribe a listener' do
-      expect {
-        publisher.subscribe(SimpleListener.new)
-      }.to_not raise_error
+      listener.should have_received(:execute_event).with(:event, 1, 2)
     end
   end
 
   describe '#on' do
-    it 'should subscribe a block listener' do
-      publisher.stub(listeners: double('Set', add: true))
+    it 'should should be successful' do
+      publisher = DummyPublisher.new
+      listeners = double('Set', add: true)
+      publisher.stub(listeners: listeners)
 
-      publisher.on(:event) { true }
+      publisher.on(:event) do
+        true
+      end
 
-      publisher.listeners.should have_received(:add).once
+      listeners.should have_received(:add).once
+    end
+  end
+
+  describe '#subscribe' do
+    it 'should subscribe a subscriber' do
+      publisher = DummyPublisher.new
+      listeners = double('Set', add: true)
+      listener = double('Listener')
+      publisher.stub(listeners: listeners)
+
+      publisher.subscribe(listener)
+
+      listeners.should have_received(:add).with(listener).once
     end
   end
 
   describe '#listeners' do
-    subject { publisher.listeners }
+    subject { DummyPublisher.new.listeners }
     it { should be_a(Set) }
   end
+
 end
