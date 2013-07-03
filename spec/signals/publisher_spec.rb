@@ -5,68 +5,42 @@ describe Signals::Publisher do
     include Signals::Publisher
   end
 
-  class DummySimpleListener
-    def simple_method
-      true
-    end
+  class SimpleListener
   end
 
-  class DummyComplexListener
-    def complex_method(a, b)
-      true
-    end
-  end
+  let(:publisher) { DummyPublisher.new }
 
   describe '#broadcast' do
-    it 'should broadcast to no listeners' do
-      publisher = DummyPublisher.new
-      expect { publisher.broadcast(:simple_method) }.to_not raise_error
-    end
+    it 'should broadcast an event' do
+      listener = double('AListener', execute: true)
+      publisher.stub(listeners: Set.new([listener]))
 
-    it 'should broadcast to a simple listener' do
-      publisher = DummyPublisher.new
-      publisher.stub(:listeners).and_return([DummySimpleListener.new])
-      expect { publisher.broadcast(:simple_method) }.to_not raise_error
-    end
+      publisher.broadcast(:event, 1, 2)
 
-    it 'should broadcast to a complex listener' do
-      publisher = DummyPublisher.new
-      publisher.stub(:listeners).and_return([DummyComplexListener.new])
-      expect { publisher.broadcast(:complex_method, 1, 2) }.to_not raise_error
-    end
-
-    it 'should broadcast an unsupported event to a listener' do
-      publisher = DummyPublisher.new
-      publisher.stub(:listeners).and_return([DummySimpleListener.new])
-      expect { publisher.broadcast(:does_not_exist) }.to_not raise_error
-    end
-
-    context 'when providing too few arguments' do
-      it 'should raise an argument error' do
-        publisher = DummyPublisher.new
-        publisher.stub(:listeners).and_return([DummyComplexListener.new])
-        expect { publisher.broadcast(:complex_method, 1) }.to raise_error(/wrong number of arguments/)
-      end
-    end
-
-    context 'when providing too many arguments' do
-      it 'should raise an argument error' do
-        publisher = DummyPublisher.new
-        publisher.stub(:listeners).and_return([DummySimpleListener.new])
-        expect { publisher.broadcast(:simple_method, 1) }.to raise_error(/wrong number of arguments/)
-      end
+      listener.should have_received(:execute).with(:event, 1, 2)
     end
   end
 
   describe '#subscribe' do
-    it 'should subscribe an object' do
-      publisher = DummyPublisher.new
-      expect { publisher.subscribe(Object.new) }.to_not raise_error
+    it 'should subscribe a listener' do
+      expect {
+        publisher.subscribe(SimpleListener.new)
+      }.to_not raise_error
     end
   end
 
   describe '#on' do
-    pending
+    it 'should subscribe a block listener' do
+      publisher.stub(listeners: double('Set', add: true))
+
+      publisher.on(:event) { true }
+
+      publisher.listeners.should have_received(:add).once
+    end
   end
 
+  describe '#listeners' do
+    subject { publisher.listeners }
+    it { should be_a(Set) }
+  end
 end

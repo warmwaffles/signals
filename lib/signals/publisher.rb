@@ -1,30 +1,29 @@
 module Signals
 
   module Publisher
-    # Broadcasts an action to all of the subscribed listeners
-    # @return [Signals::Publisher]
-    def broadcast(action, *args)
+    # Broadcasts an event to all of the subscribed listeners
+    # @return [void]
+    def broadcast(event, *args)
       listeners.each do |listener|
-        if listener.respond_to?(action)
-          listener.send(action, *args)
-        end
+        listener.execute(event, *args)
       end
-      self
+      nil
     end
 
+    # Creates a one off listener that will respond to the event provided only
+    # @param [Object] event the event that is triggered
+    # @return [void]
     def on(event, &block)
-      listeners << BlockListener.new(event, &block)
-      self
+      listeners.add(BlockListener.new(event, &block))
+      nil
     end
 
     # Subscribe a listener to the publisher
-    # @return [Signals::Publisher]
+    # @return [void]
     def subscribe(listener)
-      listeners << listener
-      self
+      listeners.add(Listener.new(listener))
+      nil
     end
-
-    private
 
     # All of the listeners subscribed to a publisher
     # @return [Set] a unique set of listeners
