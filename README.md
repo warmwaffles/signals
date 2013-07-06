@@ -57,6 +57,74 @@ coach.subscribe(center)
 coach.on(:stop) do |c|
   puts "I'm telling you to stop"
 end
+
+coach.broadcast(:v_formation, coach)
+coach.broadcast(:hat_trick, coach)
+coach.broadcast(:stop, coach)
+```
+
+## Rails Usage
+
+```ruby app/controllers/something_controller.rb
+class SomethingController < ApplicationController
+  # ...
+  def create
+    service = CreateSomething.new(something_params)
+    service.subscribe(AListener.new)
+    service.subscribe(AnotherListener.new)
+    service.on(:create_something_successful) do |something|
+      redirect_to something_path(something)
+    end
+    service.on(:create_something_failed) do |something|
+      @something = something
+      render action: 'new'
+    end
+    service.execute
+  end
+  # ...
+end
+```
+
+```ruby app/services/create_something.rb
+class CreateSomething
+  include Signals::Publisher
+
+  def initialize(something_params={})
+    @something = Something.new(something_params)
+  end
+
+  def execute
+    if @something.save
+      broadcast(:create_something_successful, @something)
+    else
+      broadcast(:create_something_failed, @something)
+    end
+  end
+end
+```
+
+```ruby app/listeners/a_listener.rb
+class AListener
+  include Signals::Subscriber
+
+  listen_for :create_something_success => :enqueue_send_email
+
+  def enqueue_send_email
+    # queue it up to send an email
+  end
+end
+```
+
+```ruby app/listeners/another_listener.rb
+class AnotherListener
+  include Signals::Subscriber
+
+  listen_for :create_something_failed => :log_failure
+
+  def log_failure(something)
+    Rails.logger.error "Something failed"
+  end
+end
 ```
 
 ## Contributing
