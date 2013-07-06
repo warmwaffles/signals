@@ -65,7 +65,8 @@ coach.broadcast(:stop, coach)
 
 ## Rails Usage
 
-```ruby app/controllers/something_controller.rb
+```rb
+# app/controllers/something_controller.rb
 class SomethingController < ApplicationController
   # ...
   def create
@@ -85,7 +86,8 @@ class SomethingController < ApplicationController
 end
 ```
 
-```ruby app/services/create_something.rb
+```rb
+# app/services/create_something.rb
 class CreateSomething
   include Signals::Publisher
 
@@ -103,7 +105,8 @@ class CreateSomething
 end
 ```
 
-```ruby app/listeners/a_listener.rb
+```rb
+# app/listeners/a_listener.rb
 class AListener
   include Signals::Subscriber
 
@@ -115,7 +118,8 @@ class AListener
 end
 ```
 
-```ruby app/listeners/another_listener.rb
+```rb
+# app/listeners/another_listener.rb
 class AnotherListener
   include Signals::Subscriber
 
