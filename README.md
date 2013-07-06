@@ -5,7 +5,7 @@
 A light weight publish / subscribe. It is similar to how the Wisper gem works.
 Except that listeners must include `Signals::Subscriber` so that it can have a
 nice DSL and listen for specific events and trigger actions based on those
-events.
+events. This library also has no external dependencies.
 
 ## Installation
 
@@ -61,8 +61,9 @@ end
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+  1. Fork it
+  2. Create your feature branch
+  3. Commit your changes
+  4. Write tests for those changes
+  5. Push the changes
+  6. Create new Pull Request

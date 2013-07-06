@@ -104,6 +104,9 @@ module Signals
         events.include?(event)
       end
 
+      # Get actions for a specific event
+      # @param [Symbol] event
+      # @return [Array]
       def actions_for(event)
         self.events[event] || Array.new
       end
