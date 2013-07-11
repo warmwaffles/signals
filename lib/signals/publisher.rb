@@ -25,6 +25,7 @@ module Signals
       end
 
       # Subscribe a listener to the publisher
+      # @param [Object] listener
       # @return [void]
       def subscribe(listener)
         listeners.add(listener)
