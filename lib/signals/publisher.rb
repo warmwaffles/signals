@@ -31,6 +31,14 @@ module Signals
         nil
       end
 
+      # Unsubscribe a listener from the publisher
+      # @param [Object] listener
+      # @return [void]
+      def unsubscribe(listener)
+        listeners.delete(listener)
+        nil
+      end
+
       # All of the listeners subscribed to a publisher
       # @return [Set] a unique set of listeners
       def listeners
