@@ -248,7 +248,18 @@ describe Signals::Subscriber do
 
   describe '.events' do
     subject { DummySubscriber.events }
-    it { should be_a(Hash) }
+    it { should_not be_empty }
+
+    class AnotherSubscriber
+      include Signals::Subscriber
+    end
+
+    describe AnotherSubscriber do
+      describe '.events' do
+        subject { AnotherSubscriber.events }
+        it { should be_empty }
+      end
+    end
   end
 
 

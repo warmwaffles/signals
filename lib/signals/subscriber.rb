@@ -44,9 +44,8 @@ module Signals
         event(e).concat(actions.is_a?(Array) ? actions : [actions])
       end
 
-      # @return [Hash]
       def events
-        @@events ||= Hash.new
+        @events ||= Hash.new
       end
 
       private
