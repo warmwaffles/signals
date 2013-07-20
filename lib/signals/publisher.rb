@@ -11,7 +11,7 @@ module Signals
       # @return [void]
       def broadcast(event, *args)
         listeners.each do |listener|
-          listener.execute_event(event, *args)
+          listener.call(event, *args)
         end
         nil
       end

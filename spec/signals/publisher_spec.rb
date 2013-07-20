@@ -8,13 +8,13 @@ describe Signals::Publisher do
   describe '#broadcast' do
     it 'should broadcast an event to subscribers' do
       publisher = DummyPublisher.new
-      listener  = double('Listener', execute_event: true)
+      listener  = double('Listener', call: true)
       listeners = [listener]
       publisher.stub(listeners: listeners)
 
       publisher.broadcast(:event, 1, 2)
 
-      listener.should have_received(:execute_event).with(:event, 1, 2)
+      listener.should have_received(:call).with(:event, 1, 2)
     end
   end
 

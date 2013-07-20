@@ -10,13 +10,13 @@ describe Signals::Subscriber do
     listen_for [:event, :complex] => [:action_5, :action_6]
   end
 
-  describe '#execute_event' do
+  describe '#call' do
     context 'when the event is disabled' do
       it 'should not execute the actions' do
         subscriber = DummySubscriber.new
         subscriber.stub(event_enabled?: false, action_1: true)
 
-        subscriber.execute_event(:event)
+        subscriber.call(:event)
 
         subscriber.should_not have_received(:action_1)
       end
@@ -27,7 +27,7 @@ describe Signals::Subscriber do
         subscriber = DummySubscriber.new
         subscriber.stub(event_enabled?: true, action_1: true)
 
-        subscriber.execute_event(:event)
+        subscriber.call(:event)
 
         subscriber.should have_received(:action_1).once
       end

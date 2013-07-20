@@ -40,10 +40,13 @@ module Signals
 
       # @param [Symbol] e the event
       # @param [Array|Symbol] actions the actions to be taken
+      # @return [void]
       def add_event(e, actions)
         event(e).concat(actions.is_a?(Array) ? actions : [actions])
+        nil
       end
 
+      # @return [Hash]
       def events
         @events ||= Hash.new
       end
@@ -58,12 +61,15 @@ module Signals
     end
 
     module InstanceMethods
-      def execute_event(event, *args)
+      # @param [Symbol] event
+      # @return [void]
+      def call(event, *args)
         if event_enabled?(event)
           actions_for(event).each do |action|
             self.send(action, *args) if self.respond_to?(action)
           end
         end
+        nil
       end
 
       # Disables an event temporarily
