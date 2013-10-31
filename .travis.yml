@@ -2,3 +2,5 @@ language: ruby
 rvm:
  - 2.0.0
  - 1.9.3
+notifications:
+  irc: "chat.freenode.net#warmwaffles"
