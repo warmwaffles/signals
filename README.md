@@ -1,5 +1,6 @@
 # Signals
 
+[![Build Status](https://travis-ci.org/warmwaffles/signals.png?branch=master)](https://travis-ci.org/warmwaffles/signals)
 [![Code Climate](https://codeclimate.com/github/warmwaffles/signals.png)](https://codeclimate.com/github/warmwaffles/signals)
 
 A light weight publish / subscribe. It is similar to how the Wisper gem works.
