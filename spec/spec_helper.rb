@@ -1,8 +1,5 @@
-require 'simplecov'
-
-SimpleCov.start do
-  add_group "Signals", "/lib"
-end
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 
 require 'rspec'
 require 'signals'
