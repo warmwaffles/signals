@@ -4,6 +4,3 @@ rvm:
  - 1.9.3
 notifications:
   irc: "chat.freenode.net#warmwaffles"
-env:
-  - CODECLIMATE_REPO_TOKEN=2babd5b3ccdfdd5fafd1d0104e7f1a2125b9851d8190c379b74725e181811ff4
-  - CODECLIMATE_REPO_TOKEN=2babd5b3ccdfdd5fafd1d0104e7f1a2125b9851d8190c379b74725e181811ff4
