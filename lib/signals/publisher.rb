@@ -8,36 +8,29 @@ module Signals
 
     module InstanceMethods
       # Broadcasts an event to all of the subscribed listeners
-      # @return [void]
       def broadcast(event, *args)
         listeners.each do |listener|
           listener.call(event, *args)
         end
-        nil
+        args.one? ? args.first : args
       end
 
       # Creates a one off listener that will respond to the event provided only
       # @param [Object] event the event that is triggered
-      # @return [void]
       def on(event, &block)
         listeners.add(BlockListener.new(event, &block))
-        nil
       end
 
       # Subscribe a listener to the publisher
       # @param [Object] listener
-      # @return [void]
       def subscribe(listener)
         listeners.add(listener)
-        nil
       end
 
       # Unsubscribe a listener from the publisher
       # @param [Object] listener
-      # @return [void]
       def unsubscribe(listener)
         listeners.delete(listener)
-        nil
       end
 
       # All of the listeners subscribed to a publisher

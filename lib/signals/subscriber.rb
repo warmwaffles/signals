@@ -69,23 +69,21 @@ module Signals
             self.send(action, *args) if self.respond_to?(action)
           end
         end
-        nil
+        args.one? ? args.first : args
       end
 
       # Disables an event temporarily
       # @param [Symbol] event
-      # @return [void]
       def disable_event(event)
         disabled_events.add(event)
-        nil
+        self
       end
 
       # Enables an event that was disabled
       # @param [Symbol] event
-      # @return [void]
       def enable_event(event)
         disabled_events.delete(event)
-        nil
+        self
       end
 
       # Checks to see if the event is disabled
